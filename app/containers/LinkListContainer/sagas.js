@@ -13,8 +13,7 @@ function* fetchLinks(action) {
   try {
     const links = yield call(fetchLinksFromServer, action.topic);
     yield put(requestLinksSucceeded(links));
-  }
-  catch (e) {
+  } catch (e) {
     yield put(requestLinksFailed(e.message));
   }
 }
