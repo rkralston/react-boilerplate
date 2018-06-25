@@ -8,9 +8,48 @@ import React from 'react';
 
 import styles from './styles.css';
 import TextInput from '../TextInput';
+import validUrl from 'valid-url';
 
 class LinkForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  state = {};
+  static propTypes = {
+    addLink: React.PropTypes.func.isRequired,
+    topicName: React.PropTypes.string.isRequired,
+  }
+
+  state = {
+    urlError: '',
+    descriptionError: '',
+  };
+
+  onAdd = () => {
+    const url = this.url.value();
+    const description = this.description.value();
+    let urlError = null;
+    let descriptionError = null;
+
+    if (!validUrl.isWebUri(url)) {
+      urlError = 'Please provide a valid URL';
+    }
+
+    if (!description) {
+      descriptionError = 'Please provide a description';
+    }
+
+    this.setState({
+      urlError,
+      descriptionError,
+    });
+
+    if (urlError || descriptionError) {
+      return;
+    }
+
+    this.props.addLink({
+      url,
+      description,
+      topicName: this.props.topicName,
+    });
+  }
 
   render() {
     return (
@@ -22,10 +61,14 @@ class LinkForm extends React.Component { // eslint-disable-line react/prefer-sta
           <TextInput
             placeholder="URL"
             className={styles.input}
+            errorText={this.state.urlError}
+            ref={(f) => (this.url = f)}
           />
           <TextInput
             placeholder="Description"
             className={styles.input}
+            errorText={this.state.descriptionError}
+            ref={(f) => (this.description = f)}
           />
           <div className={styles.actionContainer} >
             <div
@@ -36,9 +79,9 @@ class LinkForm extends React.Component { // eslint-disable-line react/prefer-sta
             </div>
             <div
               className={styles.button}
-              onClick={this.login}
+              onClick={this.onAdd}
             >
-              log in
+              add
             </div>
           </div>
         </div>
