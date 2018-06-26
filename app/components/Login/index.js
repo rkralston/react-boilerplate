@@ -36,30 +36,32 @@ class Login extends React.Component { // eslint-disable-line react/prefer-statel
 
   render() {
     return (
-      <div className={styles.login}>
-        <div className={styles.heading}>
-          Login with your email
-        </div>
-        <TextInput
-          placeholder="Your email"
-          ref={(f) => { this.emailField = f; }}
-          errorText={this.state.errorText}
-        />
-        <div className={styles.actionContainer} >
-          <div
-            className={styles.button}
-            onClick={this.props.cancelLogin}
-          >
-            cancel
+      <div className={styles.overlay}>
+        <div className={styles.login}>
+          <div className={styles.heading}>
+            Login with your email
           </div>
-          <div
-            className={styles.button}
-            onClick={this.login}
-          >
-            log in
+          <TextInput
+            placeholder="Your email"
+            ref={(f) => { this.emailField = f; }}
+            errorText={this.state.errorText}
+          />
+          <div className={styles.actionContainer} >
+            <div
+              className={styles.button}
+              onClick={this.props.cancelLogin}
+            >
+              cancel
+            </div>
+            <div
+              className={styles.button}
+              onClick={this.login}
+            >
+              log in
+            </div>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }
